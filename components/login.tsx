@@ -4,31 +4,34 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 
 export default function Login() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Login Here</Text>
-      
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Username</Text>
-        <TextInput style={styles.input} placeholder="Enter your username" />
+    <SafeAreaView>
+      <View style={styles.container}>
+        <Text style={styles.title}>Login Here</Text>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Username</Text>
+          <TextInput style={styles.input} placeholder="Enter your username" />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry={true} />
+        </View>
+
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
-      
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry={true} />
-      </View>
-      
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
-    backgroundColor: '#f5f5f5',
+    marginBottom: 16,
+    display: 'flex',
+
   },
   title: {
     fontSize: 24,
@@ -38,6 +41,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 16,
+    fontSize: 12,
   },
   label: {
     fontSize: 16,

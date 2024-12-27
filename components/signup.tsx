@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet ,Button} from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
-
+import DropdownComponent from "./tools/DropDown";
 export default function Signup() {
+
+    //code for radio buttons
     const radioButtons: RadioButtonProps[] = useMemo(() => [
         {
             id: '1', 
@@ -20,6 +22,11 @@ export default function Signup() {
     ], []);
 
     const [selectedId, setSelectedId] = useState<string | undefined>();
+
+    //code for dropdown list elements
+    
+    //defining component
+     
 
     return (
         <SafeAreaView>
@@ -64,6 +71,8 @@ export default function Signup() {
                         layout="row" 
                     />
                 </View>
+                <DropdownComponent/>
+                <Button  title="Submit" onPress={() => {}} />
             </View>
         </SafeAreaView>
     );
@@ -97,17 +106,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         width: "75%",
     },
-    button: {
-        backgroundColor: "#007bff",
-        padding: 16,
-        borderRadius: 8,
-        alignItems: "center",
-        marginTop: 16,
-    },
-    buttonText: {
-        color: "#fff",
-        fontSize: 16,
-    },
+   
     checkboxContainer: {
         marginBottom: 16,
         alignItems: "flex-start",
