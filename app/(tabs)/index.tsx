@@ -10,9 +10,9 @@ export default function Homescreen() {
   return (
     <SafeAreaView>
       {/* <Login/> */}
-      <Signup/>
-      {/* <Home/> */}
-      {/* <Profile/> */}
+       {/* <Signup/> */}
+      {/* <Home/>  */}
+     <Profile/>
     </SafeAreaView>
   );
 }
