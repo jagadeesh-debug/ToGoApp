@@ -24,6 +24,9 @@ export default function Profile() {
                   <TouchableOpacity style={styles.button}>
                         <Text style={styles.buttonText}>LogOut</Text>
                   </TouchableOpacity>
+                  <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>Edit</Text>
+                  </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
@@ -75,11 +78,12 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         margin: 16,
+        width:120
 
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
     },
     text: {
