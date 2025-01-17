@@ -9,10 +9,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Homescreen() {
   return (
     <SafeAreaView>
-      {/* <Login/> */}
+      <Login/>
        {/* <Signup/> */}
       {/* <Home/>  */}
-     <Profile/>
+     {/* <Profile/> */}
     </SafeAreaView>
   );
 }

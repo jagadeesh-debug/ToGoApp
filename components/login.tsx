@@ -1,24 +1,64 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { getActionFromState } from '@react-navigation/native';
+import { getParamName } from 'expo-router/build/fork/getPathFromState-forks';
+import {auth,firestore} from '../app/backend/firebaseconfig'
+import { useState } from 'react';
+import { getDoc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore,doc } from 'firebase/firestore';
 export default function Login() {
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const firestore = getFirestore();
+const handleLogin = async () => {
+  if (!userEmail || !userPassword) {
+    Alert.alert('Error', 'Please enter both email and password.');
+    return;
+  }
+
+  try {
+    // Use Firebase Authentication to log in
+    const auth = getAuth();
+    const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
+    const user = userCredential.user;
+
+    console.log("User logged in successfully");
+
+    // Optionally, fetch user data from Firestore if needed
+    const userDocRef = doc(firestore, 'users', user.uid); 
+    const userDoc = await getDoc(userDocRef); // Get the document
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      console.log('User data from Firestore:', userData);
+    }
+
+  } catch (error) {
+    console.error('Error logging in:', error);
+    Alert.alert('Error', error.message);
+  }
+};
+
+  //ui code
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.title}>Login Here</Text>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Username</Text>
-          <TextInput style={styles.input} placeholder="Enter your username" />
+          <Text style={styles.label}>UserMail</Text>
+          <TextInput style={styles.input} placeholder="Enter your Mail" id='umail' onChangeText={setUserEmail}
+            keyboardType="email-address" />
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
-          <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry={true} />
+          <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry={true} id='password' value={userPassword}
+            onChangeText={setUserPassword} />
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
