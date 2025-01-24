@@ -4,7 +4,7 @@ import React from "react";
 import HomeScreen from "./HomeScreen";
 import Profile from "./profile_card";
 import { AppRegistry } from "react-native";
-
+import Login from "@/components/login";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -16,11 +16,12 @@ function MyTabs() {
     );
 }
 
-export default function App() {
+function ToGo() {
     return (
         <NavigationContainer>
             <MyTabs />
         </NavigationContainer>
     );
 }
-AppRegistry.registerComponent('ToGo', () => App);
+
+AppRegistry.registerComponent('ToGo', () =>ToGo);

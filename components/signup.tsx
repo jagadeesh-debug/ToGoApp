@@ -132,7 +132,7 @@ export default function Signup() {
             placeholder="Enter your password" 
             secureTextEntry={true} 
             value={userPassword}
-            onChangeText={setUSerpassword}
+            onChangeText={setUserpassword}
           />
         </View>
         <Button title="Submit" onPress={handleSignUp} />

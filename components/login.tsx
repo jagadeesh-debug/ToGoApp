@@ -1,66 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { getActionFromState } from '@react-navigation/native';
-import { getParamName } from 'expo-router/build/fork/getPathFromState-forks';
-import {auth,firestore} from '../app/backend/firebaseconfig';
-import { useState } from 'react';
-import { getDoc } from 'firebase/firestore';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { getDoc, doc, getFirestore } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore,doc } from 'firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
+
 export default function Login() {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const firestore = getFirestore();
-const handleLogin = async () => {
-  if (!userEmail || !userPassword) {
-    Alert.alert('Error', 'Please enter both email and password.');
-    return;
-  }
+  const [loading, setLoading] = useState(false);
+  const navigateTo = useNavigation();
 
-  try {
-    // Use Firebase Authentication to log in
-    const auth = getAuth();
-    const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
-    const user = userCredential.user;
-
-    console.log("User logged in successfully");
-
-    // Optionally, fetch user data from Firestore if needed
-    const userDocRef = doc(firestore, 'users', user.uid); 
-    const userDoc = await getDoc(userDocRef); // Get the document
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      console.log('User data from Firestore:', userData);
+  const handleLogin = async () => {
+    if (!userEmail || !userPassword) {
+      Alert.alert('Error', 'Please enter both email and password.');
+      return;
     }
 
-  } catch (error) {
-    console.error('Error logging in:', error);
-    Alert.alert('Error', error.message);
-  }
-};
+    try {
+      setLoading(true);
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
+      const user = userCredential.user;
 
-  //ui code
+      const firestore = getFirestore();
+      const userDocRef = doc(firestore, 'Guides', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        console.log('User profile found, navigating to Tabs');
+        navigateTo.navigate('Tabs' as never);
+      } else {
+        console.log('User profile not found');
+        Alert.alert('Error', 'User profile not found.');
+      }
+    } catch (error: any) {
+      console.error('Error logging in:', error);
+      Alert.alert('Error', error.message || 'Failed to log in. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.title}>Login Here</Text>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>UserMail</Text>
-          <TextInput style={styles.input} placeholder="Enter your Mail" id='umail' onChangeText={setUserEmail}
-            keyboardType="email-address" />
+          <Text style={styles.label}>User Email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your email"
+            value={userEmail}
+            onChangeText={setUserEmail}
+            keyboardType="email-address"
+          />
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
-          <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry={true} id='password' value={userPassword}
-            onChangeText={setUserPassword} />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            value={userPassword}
+            onChangeText={setUserPassword}
+            secureTextEntry
+          />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator size="large" color="#007bff" />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -70,8 +85,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     marginBottom: 16,
-    display: 'flex',
-
   },
   title: {
     fontSize: 24,
@@ -81,7 +94,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 16,
-    fontSize: 12,
   },
   label: {
     fontSize: 16,
