@@ -1,21 +1,23 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 import DropdownComponent from "./tools/DropDown";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc, Firestore } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, Firestore, getDoc ,updateDoc} from 'firebase/firestore';
 import { auth,firestore } from "../app/backend/firebaseconfig";
 export default function Signup() {
   const [userName, setUsername] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAge, setuserAge] = useState('');
-  const [userPassword, setUSerpassword] = useState('');
-
-  const handleSignUp = async () => {
+  const [userPassword, setUserpassword] = useState('');
+  const [error,setError]=useState("");
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (userPassword.length < 6) {
       Alert.alert("Minimum password length is 6");
+      setUserpassword("");
       return;
     }
   
@@ -26,18 +28,24 @@ export default function Signup() {
   
       // Store user details in Firestore
       const userRef = doc(firestore, 'Guides', user.uid);
+      const existingUser = getDoc(userRef);
+      if((await existingUser).exists()){
+        setError("User Already Exists!!!")
+      }
+      else{
       await setDoc(userRef, {
         uid:user.uid,
         email: userEmail,
         userName: userName,
         userAge: userAge,
-      },{ merge: true });
+      },{ merge: true });}
   
       Alert.alert("User signed up successfully");
     } catch (error) {
       console.error("Error signing up:", error);
       Alert.alert("Error", error.message);
     }
+  
   };
   
 

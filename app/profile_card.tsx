@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, SafeAreaView, Image, StyleSheet, TouchableOpacity, Button } from "react-native";
-
+import  Signup from '../components/signup';
+const prop :any =Signup;
 export default function Profile() {
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -16,9 +17,9 @@ export default function Profile() {
                 </View>
 
                 <View style={styles.detailsBox}>
-                    <Text style={styles.text}>Heroic</Text>
-                    <Text style={styles.text}>+123 456 7890</Text>
-                    <Text style={styles.text}>New York, USA</Text>
+                    <Text style={styles.text}>{prop.UserName}</Text>
+                    <Text style={styles.text}>{prop.userAge} </Text>
+                    <Text style={styles.text}>{prop.UserMail}</Text>
                     <Text style={styles.text}>Tourist</Text>
                 </View>
                   <TouchableOpacity style={styles.button}>

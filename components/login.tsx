@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { getActionFromState } from '@react-navigation/native';
 import { getParamName } from 'expo-router/build/fork/getPathFromState-forks';
-import {auth,firestore} from '../app/backend/firebaseconfig'
+import {auth,firestore} from '../app/backend/firebaseconfig';
 import { useState } from 'react';
 import { getDoc } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
