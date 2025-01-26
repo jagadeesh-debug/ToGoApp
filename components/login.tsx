@@ -9,7 +9,7 @@ export default function Login() {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigateTo = useNavigation();
+  const navigation = useNavigation();
 
   const handleLogin = async () => {
     if (!userEmail || !userPassword) {
@@ -29,7 +29,7 @@ export default function Login() {
 
       if (userDoc.exists()) {
         console.log('User profile found, navigating to Tabs');
-        navigateTo.navigate('Tabs' as never);
+        navigation.navigate('Profile' as never);
       } else {
         console.log('User profile not found');
         Alert.alert('Error', 'User profile not found.');
