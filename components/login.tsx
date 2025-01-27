@@ -4,7 +4,6 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityInd
 import { getDoc, doc, getFirestore } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-
 export default function Login() {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -29,7 +28,7 @@ export default function Login() {
 
       if (userDoc.exists()) {
         console.log('User profile found, navigating to Tabs');
-        navigation.navigate('Profile' as never);
+        navigation.navigate("Profile" as never);
       } else {
         console.log('User profile not found');
         Alert.alert('Error', 'User profile not found.');

@@ -4,18 +4,21 @@ import React from "react";
 import HomeScreen from "./HomeScreen";
 import Profile from "./profile_card"
 import { AppRegistry } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Login from "@/components/login";
 import Signup from "@/components/signup";
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 function MyTabs() {
     return (
-        <Tab.Navigator initialRouteName="Profile">
-            <Tab.Screen name="sign" component={Login} />
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Profile" component={Profile} />
-        </Tab.Navigator>
-    );
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Profile" component={Profile} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
 }
 
 function ToGo() {
